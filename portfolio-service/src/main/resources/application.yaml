@@ -1,0 +1,30 @@
+
+server:
+  port: 9000
+spring:
+  application:
+    name: portfolio-service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:6000/portfolio_service_db
+    username: postgres
+    password: postgres
+  jpa:
+    database: postgresql
+    show-sql: true
+    open-in-view: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
+        use_sql_comments: true
+  servlet:
+    multipart:
+      max-file-size: 10000MB
+      max-request-size: 100000MB
+logging:
+  level:
+    org.springframework.transaction.interceptor: TRACE

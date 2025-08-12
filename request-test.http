@@ -1,0 +1,213 @@
+
+### Security Requests
+
+
+
+###
+GET /api/v1/security/csrf-token
+Host: localhost:8765
+Accept: application/json
+
+
+
+### Identity Requests
+
+
+
+###
+GET /api/v1/identities
+Host: localhost:8765
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+###
+GET /api/v1/identities/by-id?identityId=a4fcb275-7ea2-423b-a92e-b912f5533fc3
+Host: localhost:8765
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+###
+POST /api/v1/identities/create
+Host: localhost:8765
+Accept: application/json
+Content-Type: application/json
+X-Csrf-Token: b6zxFCpCH30p5ibSOU8kWVZ2y2-MxZl0hDzNBPihqpfL2RNyWZrCdx57fhsE0xWwDmIQamAX5g279vtZtQv-NM-WmPP66CsX
+
+{
+    "username": "dolgatov",
+    "password": "dolgatov",
+    "email": "dolgatov@gmail.com",
+    "phone": "+7(952)-859-05-83"
+}
+
+###
+PUT /api/v1/identities/update?identityId=97279296-3626-45b6-ab3e-89517475856c
+Host: localhost:8765
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic dolgatov@gmail.com dolgatov
+X-Csrf-Token: b6zxFCpCH30p5ibSOU8kWVZ2y2-MxZl0hDzNBPihqpfL2RNyWZrCdx57fhsE0xWwDmIQamAX5g279vtZtQv-NM-WmPP66CsX
+
+{
+    "phone": "+7(964)-234-95-44"
+}
+
+###
+DELETE /api/v1/identities/delete?identityId=06e8cc51-ea69-44bb-9002-52d66e65f54c
+Host: localhost:8765
+Accept: text/plain
+
+###
+PATCH /api/v1/identities/change-password?identityId=a4fcb275-7ea2-423b-a92e-b912f5533fc3
+Host: localhost:8765
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv111
+X-Csrf-Token: 4dvP2M4BHizWNHxMXtZNc4XEfZb_vmzagriVSBAPM3tVM4sM1Lj86vs4eE37Vx0tOvt5FuCiUPfHhlr34N6mKSc5VxpkAOg6
+
+{
+    "password": "burgasvv"
+}
+
+
+
+### Profession Requests
+
+
+
+###
+GET /api/v1/professions
+Host: localhost:8765
+Accept: application/json
+
+###
+GET /api/v1/professions/by-id?professionId=2ddfe2f7-9cf7-4fac-a1c0-b59370aa09d5
+Host: localhost:8765
+Accept: application/json
+
+###
+POST /api/v1/professions/create
+Host: localhost:8765
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: wc26CAEVkCTUAeJ9a2k8VjTuMJYy45VjCs7_Hklpslw38tET-fqKPjQjoRf5Z9JNCkQIYwLZHfQK0KJOPa2eKXhb0T4Fl7Vx
+
+{
+    "name": "C++ разработчик",
+    "description": "описание профессии C++ разработчик"
+}
+
+###
+POST /api/v1/professions/update
+Host: localhost:8765
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: wc26CAEVkCTUAeJ9a2k8VjTuMJYy45VjCs7_Hklpslw38tET-fqKPjQjoRf5Z9JNCkQIYwLZHfQK0KJOPa2eKXhb0T4Fl7Vx
+
+{
+    "id": "2951126d-6e82-4203-85e4-ad52f5301a34",
+    "description": "Описание профессии C++ разработчик"
+}
+
+###
+DELETE /api/v1/professions/delete?professionId=2951126d-6e82-4203-85e4-ad52f5301a34
+Host: localhost:8765
+Accept: text/plain
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: wc26CAEVkCTUAeJ9a2k8VjTuMJYy45VjCs7_Hklpslw38tET-fqKPjQjoRf5Z9JNCkQIYwLZHfQK0KJOPa2eKXhb0T4Fl7Vx
+
+
+
+### Portfolios Requests
+
+
+
+###
+GET /api/v1/portfolios
+Host: localhost:8765
+Accept: application/json
+
+###
+GET /api/v1/portfolios/by-id?portfolioId=6bbe7042-8ba3-412c-8a2d-637eb39bb67b
+Host: localhost:8765
+Accept: application/json
+
+###
+POST /api/v1/portfolios/create?identityId=a4fcb275-7ea2-423b-a92e-b912f5533fc3
+Host: localhost:8765
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: LyhkoOAGqRENO-p5PuHbthamHblyHgqNN7SpLkl_7B6QzqSfSUtWmNhgyyggC9oaDMzv0iHEMIFEJmmgB4XMFy8e2SyiqJ35
+Content-Type: application/json
+
+{
+    "name": "Портфолио Java разработчика",
+    "description": "Описание портфолио Java разработчика",
+    "professionId": "2ddfe2f7-9cf7-4fac-a1c0-b59370aa09d5",
+    "opened": true
+}
+
+###
+POST /api/v1/portfolios/update?identityId=a4fcb275-7ea2-423b-a92e-b912f5533fc3
+Host: localhost:8765
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: LyhkoOAGqRENO-p5PuHbthamHblyHgqNN7SpLkl_7B6QzqSfSUtWmNhgyyggC9oaDMzv0iHEMIFEJmmgB4XMFy8e2SyiqJ35
+
+{
+    "id": "6bbe7042-8ba3-412c-8a2d-637eb39bb67b",
+    "description": "Описание портфолио Java разработчика с изменениями"
+}
+
+###
+DELETE /api/v1/portfolios/delete?identityId=a4fcb275-7ea2-423b-a92e-b912f5533fc3&portfolioId=f2cd1df7-2a5a-4508-9e1e-09ca245dea2f
+Host: localhost:8765
+Accept: text/plain
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: Zlbd6YvjgxzIrxuP10k0un028Gx4Bkl37nHzLCR2k_JYfohzADXv0bOF4SXlnyvs5WQA3kpU3VROPipa3kCWFUIXpsBqGLEV
+
+
+
+### Project Requests
+
+
+###
+GET /api/v1/projects/by-id?projectId=b980a838-dc0d-4854-b7de-7473913edd9a
+Host: localhost:8765
+Accept: application/json
+
+###
+POST /api/v1/projects/create
+Host: localhost:8765
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: RB9R4vpdjTDNEInDuw1OtVGgQSgiAhTHaVJJuEWmXIg7ZUuvIC9hgZ4-7gfgdLum3SB60GaVbBFGZifqC2t-iHPCOb9ZBHzJ
+
+{
+    "name": "Проект Bank Account на языке Java",
+    "description": "Описание проекта и ссылки",
+    "portfolioId": "6bbe7042-8ba3-412c-8a2d-637eb39bb67b"
+}
+
+###
+POST /api/v1/projects/update?identityId=a4fcb275-7ea2-423b-a92e-b912f5533fc3
+Host: localhost:8765
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: osDDK_xjDkcrArmU4b4LVQdGaIo5qlifPodVvnH_DnoQ7sQnxvDzSJgAbXAGZovxh5M_MDBzRbNdzmuyXL5ijkeba01yj_NB
+
+{
+    "id": "9cbebe84-f13e-4595-8264-9a2d8e8c8bef",
+    "description": "Описание проекта и ссылки на GitHub"
+}
+
+###
+DELETE /api/v1/projects/delete?identityId=a4fcb275-7ea2-423b-a92e-b912f5533fc3&projectId=9cbebe84-f13e-4595-8264-9a2d8e8c8bef
+Host: localhost:8765
+Accept: text/plain
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: VqoKLrwlU3q8PobxAZYbt6yLcrJO-0xzku46DPf16bm5oqEsMpo6TdhGME2RWrSUZ7sv0pu-X4sqn39e8NcNPMGRjI7bw5ZK
