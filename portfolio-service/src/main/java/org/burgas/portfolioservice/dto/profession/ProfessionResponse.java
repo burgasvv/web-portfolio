@@ -11,7 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class ProfessionResponse extends Response {
+public final class ProfessionResponse extends Response {
 
     private UUID id;
     private String name;
