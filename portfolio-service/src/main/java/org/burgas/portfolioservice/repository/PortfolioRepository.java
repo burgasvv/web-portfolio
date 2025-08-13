@@ -20,4 +20,7 @@ public interface PortfolioRepository extends JpaRepository<Portfolio, UUID> {
     @Override
     @EntityGraph(value = "portfolio-with-identity-and-profession", type = EntityGraph.EntityGraphType.FETCH)
     @NotNull Optional<Portfolio> findById(@NotNull UUID uuid);
+
+    @EntityGraph(value = "portfolio-with-identity-and-profession", type = EntityGraph.EntityGraphType.FETCH)
+    Optional<Portfolio> findPortfolioByName(String name);
 }

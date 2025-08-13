@@ -58,7 +58,7 @@ public class PortfolioController {
     }
 
     @DeleteMapping(value = "/delete")
-    public ResponseEntity<String> deletePortfolio(@RequestParam UUID portfolioId) {
+    public ResponseEntity<String> deletePortfolio(@RequestParam UUID portfolioId, @RequestParam UUID identityId) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .contentType(new MediaType(MediaType.TEXT_PLAIN, StandardCharsets.UTF_8))

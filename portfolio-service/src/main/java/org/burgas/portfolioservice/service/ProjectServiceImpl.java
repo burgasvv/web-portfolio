@@ -15,7 +15,7 @@ import org.burgas.portfolioservice.message.ImageMessages;
 import org.burgas.portfolioservice.message.ProjectMessages;
 import org.burgas.portfolioservice.message.VideoMessages;
 import org.burgas.portfolioservice.repository.ProjectRepository;
-import org.burgas.portfolioservice.service.contract.ProjectService;
+import org.burgas.portfolioservice.service.contract.EntityService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -25,11 +25,12 @@ import org.springframework.web.multipart.MultipartFile;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-public class ProjectServiceImpl implements ProjectService<ProjectRequest, ProjectResponse> {
+public class ProjectServiceImpl implements EntityService<ProjectRequest, ProjectResponse> {
 
     private final ProjectRepository projectRepository;
     private final ProjectMapper projectMapper;
@@ -37,6 +38,14 @@ public class ProjectServiceImpl implements ProjectService<ProjectRequest, Projec
     private final ImageService imageService;
     private final VideoService videoService;
     private final DocumentService documentService;
+
+    @Override
+    public List<ProjectResponse> findAll() {
+        return this.projectRepository.findAll()
+                .stream()
+                .map(this.projectMapper::toResponse)
+                .collect(Collectors.toList());
+    }
 
     @Override
     public ProjectResponse findById(UUID projectId) {
@@ -54,7 +63,7 @@ public class ProjectServiceImpl implements ProjectService<ProjectRequest, Projec
             isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,
             rollbackFor = Exception.class
     )
-    public ProjectResponse createOrUpdate(ProjectRequest projectRequest, UUID identityId) {
+    public ProjectResponse createOrUpdate(ProjectRequest projectRequest) {
         return this.projectMapper.toResponse(
                 this.projectRepository.save(this.projectMapper.toEntity(projectRequest))
         );
@@ -65,7 +74,7 @@ public class ProjectServiceImpl implements ProjectService<ProjectRequest, Projec
             isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,
             rollbackFor = Exception.class
     )
-    public String deleteById(UUID projectId, UUID identityId) {
+    public String deleteById(UUID projectId) {
         return this.projectRepository.findById(
                         projectId == null ? UUID.nameUUIDFromBytes("0".getBytes(StandardCharsets.UTF_8)) : projectId
                 )
@@ -80,7 +89,6 @@ public class ProjectServiceImpl implements ProjectService<ProjectRequest, Projec
                 );
     }
 
-    @Override
     @Transactional(
             isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,
             rollbackFor = Exception.class
@@ -101,12 +109,11 @@ public class ProjectServiceImpl implements ProjectService<ProjectRequest, Projec
         return ProjectMessages.PROJECT_IMAGES_UPLOADED.getMessage();
     }
 
-    @Override
     @Transactional(
             isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,
             rollbackFor = Exception.class
     )
-    public String changeImage(UUID identityId, UUID projectId, UUID imageId, MultipartFile multipartFile) {
+    public String changeImage(UUID projectId, UUID imageId, MultipartFile multipartFile) {
         if (multipartFile == null || multipartFile.isEmpty())
             throw new MultipartFileEmptyException(ProjectMessages.MULTIPART_FILE_EMPTY.getMessage());
         Pair<Project, Image> projectAndImage = this.getProjectAndImage(projectId, imageId);
@@ -114,12 +121,11 @@ public class ProjectServiceImpl implements ProjectService<ProjectRequest, Projec
         return ProjectMessages.PROJECT_IMAGE_CHANGED.getMessage();
     }
 
-    @Override
     @Transactional(
             isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,
             rollbackFor = Exception.class
     )
-    public String deleteImage(UUID identityId, UUID projectId, UUID imageId) {
+    public String deleteImage(UUID projectId, UUID imageId) {
         Pair<Project, Image> projectAndImage = this.getProjectAndImage(projectId, imageId);
         projectAndImage.a.removeImage(projectAndImage.b);
         this.imageService.delete(projectAndImage.b.getId());
@@ -139,12 +145,11 @@ public class ProjectServiceImpl implements ProjectService<ProjectRequest, Projec
         return new Pair<>(project, projectImage);
     }
 
-    @Override
     @Transactional(
             isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,
             rollbackFor = Exception.class
     )
-    public String uploadVideos(UUID identityId, UUID projectId, List<MultipartFile> multipartFiles) {
+    public String uploadVideos(UUID projectId, List<MultipartFile> multipartFiles) {
         if (multipartFiles == null || multipartFiles.isEmpty())
             throw new MultipartFileEmptyException(ProjectMessages.MULTIPART_FILE_EMPTY.getMessage());
         Project project = this.projectRepository.findById(
@@ -160,12 +165,11 @@ public class ProjectServiceImpl implements ProjectService<ProjectRequest, Projec
         return ProjectMessages.PROJECT_VIDEOS_UPLOADED.getMessage();
     }
 
-    @Override
     @Transactional(
             isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,
             rollbackFor = Exception.class
     )
-    public String changeVideo(UUID identityId, UUID projectId, UUID videoId, MultipartFile multipartFile) {
+    public String changeVideo(UUID projectId, UUID videoId, MultipartFile multipartFile) {
         if (multipartFile == null || multipartFile.isEmpty())
             throw new MultipartFileEmptyException(ProjectMessages.MULTIPART_FILE_EMPTY.getMessage());
         Pair<Project, Video> projectAndVideo = this.getProjectAndVideo(projectId, videoId);
@@ -173,12 +177,11 @@ public class ProjectServiceImpl implements ProjectService<ProjectRequest, Projec
         return ProjectMessages.PROJECT_VIDEO_CHANGED.getMessage();
     }
 
-    @Override
     @Transactional(
             isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,
             rollbackFor = Exception.class
     )
-    public String deleteVideo(UUID identityId, UUID projectId, UUID videoId) {
+    public String deleteVideo(UUID projectId, UUID videoId) {
         Pair<Project, Video> projectAndVideo = this.getProjectAndVideo(projectId, videoId);
         projectAndVideo.a.removeVideo(projectAndVideo.b);
         this.videoService.delete(projectAndVideo.b.getId());
@@ -198,12 +201,11 @@ public class ProjectServiceImpl implements ProjectService<ProjectRequest, Projec
         return new Pair<>(project, projectVideo);
     }
 
-    @Override
     @Transactional(
             isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,
             rollbackFor = Exception.class
     )
-    public String uploadDocuments(UUID identityId, UUID projectId, List<MultipartFile> multipartFiles) {
+    public String uploadDocuments(UUID projectId, List<MultipartFile> multipartFiles) {
         if (multipartFiles == null || multipartFiles.isEmpty())
             throw new MultipartFileEmptyException(ProjectMessages.MULTIPART_FILE_EMPTY.getMessage());
         Project project = this.projectRepository.findById(
@@ -219,12 +221,11 @@ public class ProjectServiceImpl implements ProjectService<ProjectRequest, Projec
         return ProjectMessages.PROJECT_DOCUMENTS_UPLOADED.getMessage();
     }
 
-    @Override
     @Transactional(
             isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,
             rollbackFor = Exception.class
     )
-    public String changeDocument(UUID identityId, UUID projectId, UUID documentId, MultipartFile multipartFile) {
+    public String changeDocument(UUID projectId, UUID documentId, MultipartFile multipartFile) {
         if (multipartFile == null || multipartFile.isEmpty())
             throw new MultipartFileEmptyException(ProjectMessages.MULTIPART_FILE_EMPTY.getMessage());
         Pair<Project, Document> projectAndDocument = this.getProjectAndDocument(projectId, documentId);
@@ -232,12 +233,11 @@ public class ProjectServiceImpl implements ProjectService<ProjectRequest, Projec
         return ProjectMessages.PROJECT_DOCUMENT_CHANGED.getMessage();
     }
 
-    @Override
     @Transactional(
             isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED,
             rollbackFor = Exception.class
     )
-    public String deleteDocument(UUID identityId, UUID projectId, UUID documentId) {
+    public String deleteDocument(UUID projectId, UUID documentId) {
         Pair<Project, Document> projectAndDocument = this.getProjectAndDocument(projectId, documentId);
         projectAndDocument.a.removeDocument(projectAndDocument.b);
         this.documentService.delete(projectAndDocument.b.getId());

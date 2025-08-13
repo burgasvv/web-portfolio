@@ -38,12 +38,12 @@ public class ProjectController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(this.projectService.createOrUpdate(projectRequest, identityId));
+                .body(this.projectService.createOrUpdate(projectRequest));
     }
 
     @PostMapping(value = "/update")
     public ResponseEntity<ProjectResponse> updateProject(@RequestBody ProjectRequest projectRequest, @RequestParam UUID identityId) {
-        ProjectResponse projectResponse = this.projectService.createOrUpdate(projectRequest, identityId);
+        ProjectResponse projectResponse = this.projectService.createOrUpdate(projectRequest);
         return ResponseEntity
                 .status(HttpStatus.FOUND)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -56,7 +56,7 @@ public class ProjectController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .contentType(new MediaType(MediaType.TEXT_PLAIN, StandardCharsets.UTF_8))
-                .body(this.projectService.deleteById(projectId, identityId));
+                .body(this.projectService.deleteById(projectId));
     }
 
     @PostMapping(value = "/upload-images")
@@ -78,7 +78,7 @@ public class ProjectController {
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .contentType(new MediaType(MediaType.TEXT_PLAIN, StandardCharsets.UTF_8))
-                    .body(this.projectService.changeImage(identityId, projectId, imageId, file));
+                    .body(this.projectService.changeImage(projectId, imageId, file));
         } else {
             throw new WrongFileTypeException(ProjectMessages.WRONG_FILE_TYPE.getMessage());
         }
@@ -89,7 +89,7 @@ public class ProjectController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .contentType(new MediaType(MediaType.TEXT_PLAIN, StandardCharsets.UTF_8))
-                .body(this.projectService.deleteImage(identityId, projectId, imageId));
+                .body(this.projectService.deleteImage(projectId, imageId));
     }
 
     @PostMapping(value = "/upload-videos")
@@ -100,7 +100,7 @@ public class ProjectController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .contentType(new MediaType(MediaType.TEXT_PLAIN, StandardCharsets.UTF_8))
-                .body(this.projectService.uploadVideos(identityId, projectId, file));
+                .body(this.projectService.uploadVideos(projectId, file));
     }
 
     @PutMapping(value = "/change-video")
@@ -111,7 +111,7 @@ public class ProjectController {
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .contentType(new MediaType(MediaType.TEXT_PLAIN, StandardCharsets.UTF_8))
-                    .body(this.projectService.changeVideo(identityId, projectId, videoId, file));
+                    .body(this.projectService.changeVideo(projectId, videoId, file));
         } else {
             throw new WrongFileTypeException(ProjectMessages.WRONG_FILE_TYPE.getMessage());
         }
@@ -122,7 +122,7 @@ public class ProjectController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .contentType(new MediaType(MediaType.TEXT_PLAIN, StandardCharsets.UTF_8))
-                .body(this.projectService.deleteVideo(identityId, projectId, videoId));
+                .body(this.projectService.deleteVideo(projectId, videoId));
     }
 
     @PostMapping(value = "/upload-documents")
@@ -136,7 +136,7 @@ public class ProjectController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .contentType(new MediaType(MediaType.TEXT_PLAIN, StandardCharsets.UTF_8))
-                .body(this.projectService.uploadDocuments(identityId, projectId, file));
+                .body(this.projectService.uploadDocuments(projectId, file));
     }
 
     @PutMapping(value = "/change-document")
@@ -150,7 +150,7 @@ public class ProjectController {
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .contentType(new MediaType(MediaType.TEXT_PLAIN, StandardCharsets.UTF_8))
-                    .body(this.projectService.changeDocument(identityId, projectId, documentId, file));
+                    .body(this.projectService.changeDocument(projectId, documentId, file));
         } else {
             throw new WrongFileTypeException(ProjectMessages.WRONG_FILE_TYPE.getMessage());
         }
@@ -161,6 +161,6 @@ public class ProjectController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(this.projectService.deleteDocument(identityId, projectId, documentId));
+                .body(this.projectService.deleteDocument(projectId, documentId));
     }
 }
