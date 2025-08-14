@@ -1,5 +1,5 @@
 
-FROM maven:4.0.0 AS build
+FROM maven:3.9.9 AS build
 COPY pom.xml .
 COPY /src ./src/
 RUN mvn clean package -DskipTests
