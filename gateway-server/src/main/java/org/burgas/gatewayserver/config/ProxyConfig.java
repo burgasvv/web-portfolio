@@ -15,7 +15,7 @@ public class ProxyConfig {
                         "portfolio-service", predicateSpec ->
                                 predicateSpec
                                 .path("/api/v1/**")
-                                .uri("http://localhost:9000")
+                                .uri("http://portfolio-service:9000")
                 )
                 .build();
     }
