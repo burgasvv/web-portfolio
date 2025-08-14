@@ -5,7 +5,7 @@ import org.burgas.portfolioservice.dto.project.ProjectRequest;
 import org.burgas.portfolioservice.dto.project.ProjectResponse;
 import org.burgas.portfolioservice.exception.WrongFileTypeException;
 import org.burgas.portfolioservice.message.ProjectMessages;
-import org.burgas.portfolioservice.service.ProjectServiceImpl;
+import org.burgas.portfolioservice.service.ProjectService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ import java.util.UUID;
 @RequestMapping(value = "/api/v1/projects")
 public class ProjectController {
 
-    private final ProjectServiceImpl projectService;
+    private final ProjectService projectService;
 
     @GetMapping(value = "/by-id")
     public ResponseEntity<ProjectResponse> getProjectById(@RequestParam UUID projectId) {

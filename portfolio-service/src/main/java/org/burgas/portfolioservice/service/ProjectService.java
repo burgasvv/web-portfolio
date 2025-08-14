@@ -1,5 +1,6 @@
 package org.burgas.portfolioservice.service;
 
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.antlr.v4.runtime.misc.Pair;
 import org.burgas.portfolioservice.dto.project.ProjectRequest;
@@ -30,7 +31,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-public class ProjectServiceImpl implements EntityService<ProjectRequest, ProjectResponse> {
+public class ProjectService implements EntityService<ProjectRequest, ProjectResponse> {
 
     private final ProjectRepository projectRepository;
     private final ProjectMapper projectMapper;
@@ -38,6 +39,8 @@ public class ProjectServiceImpl implements EntityService<ProjectRequest, Project
     private final ImageService imageService;
     private final VideoService videoService;
     private final DocumentService documentService;
+
+    private final EntityManager entityManager;
 
     @Override
     public List<ProjectResponse> findAll() {
